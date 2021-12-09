@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/home_fragment"
+        android:icon="@drawable/ic_baseline_dns_24"
+        android:title="@string/delivery_box"/>
+
+    <item android:id="@+id/my_fragment"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@string/my_page"/>
+</menu>

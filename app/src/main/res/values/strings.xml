@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Delivery</string>
+
+    <!-- Toolbar Title -->
+    <string name="delivery_box">택배함</string>
+    <string name="my_page">마이페이지</string>
 </resources>
