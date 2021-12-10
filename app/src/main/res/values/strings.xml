@@ -4,4 +4,10 @@
     <!-- Toolbar Title -->
     <string name="delivery_box">택배함</string>
     <string name="my_page">마이페이지</string>
+
+    <!-- Home -->
+    <string name="add_invoice">운송장 추가하기</string>
+    <string name="empty_list">저장된 택배가 없어요!</string>
+
+
 </resources>
