@@ -72,7 +72,38 @@ class HomeFragment : Fragment() {
         }
 
         binding.refreshBtn.setOnClickListener {
-            viewModel.updateTrackingInfo(auth.currentUser!!.uid)
+            (binding.recyclerView.adapter as TrackingInfoAdapter).modifyMode = false
+            viewModel.updateInfo(auth.currentUser!!.uid)
+        }
+
+        binding.modifyBtn.setOnClickListener {
+            it.gone()
+            binding.modifyCancelDeleteLayout.visible()
+
+            (binding.recyclerView.adapter as TrackingInfoAdapter).apply {
+                modifyMode = true
+                notifyDataSetChanged()
+            }
+        }
+
+        binding.cancelBtn.setOnClickListener {
+            binding.modifyBtn.visible()
+            binding.modifyCancelDeleteLayout.gone()
+
+            (binding.recyclerView.adapter as TrackingInfoAdapter).apply {
+                modifyMode = false
+                currentList.forEach { it.isChecked = false }
+                notifyDataSetChanged()
+            }
+        }
+
+        binding.deleteBtn.setOnClickListener {
+            val deleteInfoList =
+                (binding.recyclerView.adapter as TrackingInfoAdapter).currentList.filter { it.isChecked }
+
+            if (deleteInfoList.isNotEmpty()) {
+                viewModel.deleteInfo(auth.currentUser!!.uid, deleteInfoList)
+            }
         }
 
         trackingAdapter = TrackingInfoAdapter()
@@ -87,30 +118,14 @@ class HomeFragment : Fragment() {
                     when (result) {
                         Result.Empty -> {
                             binding.progressBar.gone()
-//                            binding.errorTv.gone()
-//                            binding.emptyListTv.visible()
-                            val list = emptyList<TrackingInfoCompany>().toMutableList()
-
-                            for (i in 0..7) {
-                                val tr = TrackingInfoCompany(
-                                    info = TrackingInformation(
-                                        completeYN = "Y",
-                                        invoiceNo = "1235671253",
-                                        lastDetail = TrackingDetail(
-                                            kind = "배송 완료",
-                                            time = System.currentTimeMillis()
-                                        ),
-                                        level = Level.COMPLETE,
-
-                                    ),
-                                    company = Company(
-                                        name = "CJ 대한통운",
-                                        code = "01"
-                                    )
-                                )
-                                list.add(tr)
+                            binding.errorTv.gone()
+                            binding.emptyListTv.visible()
+                            binding.modifyBtn.gone()
+                            binding.modifyCancelDeleteLayout.gone()
+                            (binding.recyclerView.adapter as TrackingInfoAdapter).apply {
+                                submitList(emptyList())
+                                modifyMode = false
                             }
-                            (binding.recyclerView.adapter as TrackingInfoAdapter).submitList(list)
                         }
                         is Result.Error -> {
                             binding.progressBar.gone()
@@ -126,9 +141,14 @@ class HomeFragment : Fragment() {
                             binding.errorTv.gone()
                         }
                         is Result.Success -> {
+                            binding.modifyBtn.visible()
                             binding.progressBar.gone()
                             binding.errorTv.gone()
-                            (binding.recyclerView.adapter as TrackingInfoAdapter).submitList(result.data)
+                            binding.modifyCancelDeleteLayout.gone()
+                            (binding.recyclerView.adapter as TrackingInfoAdapter).apply {
+                                submitList(result.data)
+                                modifyMode = false
+                            }
                         }
                         else -> Unit
                     }
@@ -174,7 +194,7 @@ class HomeFragment : Fragment() {
             binding.nicknameTv.text = getString(R.string.nickname_title, user.displayName)
             binding.emptyListTv.visible()
             binding.googleBtn.gone()
-            viewModel.updateTrackingInfo(auth.currentUser!!.uid)
+            viewModel.updateInfo(auth.currentUser!!.uid)
         }
     }
 }

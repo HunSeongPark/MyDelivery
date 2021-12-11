@@ -3,6 +3,7 @@ package com.hunseong.delivery.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DiffUtil.DiffResult.NO_POSITION
 import androidx.recyclerview.widget.ListAdapter
@@ -13,6 +14,9 @@ import com.hunseong.delivery.databinding.ItemDeliveryBinding
 
 class TrackingInfoAdapter :
     ListAdapter<TrackingInfoCompany, TrackingInfoAdapter.ViewHolder>(diffUtil) {
+
+    var modifyMode: Boolean = false
+
     inner class ViewHolder(private val binding: ItemDeliveryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -27,7 +31,18 @@ class TrackingInfoAdapter :
         }
 
         fun bind(info: TrackingInfoCompany) {
+            val position = bindingAdapterPosition.takeIf { it != NO_POSITION } ?: return
+
             binding.information = info
+            binding.checkBox.isVisible = modifyMode
+
+            binding.checkBox.setOnCheckedChangeListener(null)
+
+            binding.checkBox.isChecked = getItem(position).isChecked
+
+            binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
+                getItem(position).isChecked = isChecked
+            }
 
             if (info.info!!.completeYN == "Y") {
                 binding.dateTv.setTextColor(ContextCompat.getColor(binding.root.context,

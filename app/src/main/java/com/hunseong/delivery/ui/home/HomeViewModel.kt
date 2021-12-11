@@ -10,7 +10,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,7 +22,7 @@ class HomeViewModel @Inject constructor(
         MutableStateFlow<Result<List<TrackingInfoCompany>>>(Result.Uninitialized)
     val trackingInfos = _trackingInfos.asStateFlow()
 
-    fun updateTrackingInfo(uid: String) = viewModelScope.launch {
+    fun updateInfo(uid: String) = viewModelScope.launch {
         _trackingInfos.value = Result.Loading
         try {
             val searchInfos = firestoreRepository.getAllSearchInfo(uid)
@@ -40,6 +39,18 @@ class HomeViewModel @Inject constructor(
                 _trackingInfos.value =
                     Result.Success(sortedInfoCompany)
             }
+        } catch (e: Exception) {
+            _trackingInfos.value = Result.Error(e)
+        }
+    }
+
+    fun deleteInfo(uid: String, infoList: List<TrackingInfoCompany>) = viewModelScope.launch {
+        _trackingInfos.value = Result.Loading
+        try {
+            infoList.forEach {
+                firestoreRepository.deleteInfo(uid, it.info!!.invoiceNo!!)
+            }
+            updateInfo(uid)
         } catch (e: Exception) {
             _trackingInfos.value = Result.Error(e)
         }

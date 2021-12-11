@@ -7,7 +7,8 @@ import java.text.SimpleDateFormat
 @Parcelize
 data class TrackingInfoCompany(
     val info: TrackingInformation? = null,
-    val company: Company? = null
+    val company: Company? = null,
+    var isChecked: Boolean = false
 ) : Parcelable {
 
     // 마지막 업데이트 mm.dd 변환

@@ -13,4 +13,5 @@
     <color name="primaryDarkColor">#c25e00</color>
     <color name="primaryTextColor">#000000</color>
     <color name="divider_gray">#E4E4E4</color>
+    <color name="red">#FD0000</color>
 </resources>

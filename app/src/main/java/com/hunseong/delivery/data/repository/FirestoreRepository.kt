@@ -16,7 +16,11 @@ class FirestoreRepository @Inject constructor(
             firestoreApi.getAllSearchInfo(uid)
         }
 
-    fun insertSearchInfo(uid: String, searchInfo: TrackingSearchInfo) {
-        firestoreApi.insertSearchInfo(uid, searchInfo)
+    fun insertInfo(uid: String, searchInfo: TrackingSearchInfo) {
+        firestoreApi.insertInfo(uid, searchInfo)
+    }
+
+    fun deleteInfo(uid: String, invoice: String) {
+        firestoreApi.deleteInfo(uid, invoice)
     }
 }

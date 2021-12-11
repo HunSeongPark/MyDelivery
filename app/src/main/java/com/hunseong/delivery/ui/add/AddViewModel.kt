@@ -10,7 +10,6 @@ import com.hunseong.delivery.data.repository.FirestoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -76,7 +75,7 @@ class AddViewModel @Inject constructor(
     }
 
     private fun insertSearchInfo(uid: String, searchInfo: TrackingSearchInfo) {
-        firestoreRepository.insertSearchInfo(uid, searchInfo)
+        firestoreRepository.insertInfo(uid, searchInfo)
     }
 
     fun changeQuery(query: String) {
