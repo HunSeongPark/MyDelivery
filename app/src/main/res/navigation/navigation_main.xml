@@ -13,10 +13,24 @@
         <action
             android:id="@+id/home_fragment_to_detail_fragment"
             app:destination="@id/detail_fragment"
-            app:enterAnim="@animator/slide_in_right"
-            app:exitAnim="@animator/none"
-            app:popEnterAnim="@animator/none"
-            app:popExitAnim="@animator/slide_out_right" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/none"
+            app:popEnterAnim="@anim/none"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/home_fragment_to_add_fragment"
+            app:destination="@id/add_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/none"
+            app:popEnterAnim="@anim/none"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment android:id="@+id/add_fragment"
+        android:name="com.hunseong.delivery.ui.add.AddFragment"
+        tools:layout="@layout/fragment_add">
 
     </fragment>
 

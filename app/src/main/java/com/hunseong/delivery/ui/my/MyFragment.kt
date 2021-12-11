@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.hunseong.delivery.databinding.FragmentHomeBinding
 import com.hunseong.delivery.databinding.FragmentMyBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MyFragment : Fragment() {
     private lateinit var binding: FragmentMyBinding
 

@@ -8,7 +8,9 @@ import com.hunseong.delivery.R
 import com.hunseong.delivery.databinding.ActivityMainBinding
 import com.hunseong.delivery.extension.gone
 import com.hunseong.delivery.extension.visible
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

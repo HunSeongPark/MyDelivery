@@ -30,14 +30,7 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/google_btn"
-            android:text="click to google login"/>
-
         <androidx.core.widget.NestedScrollView
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
@@ -60,16 +53,30 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="훈성님,\n택배가 지금 오고있어요!" />
 
-                <Button
-                    android:id="@+id/add_btn"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/button_wrap_layout"
                     android:layout_marginHorizontal="30dp"
                     android:layout_marginTop="15dp"
-                    android:text="@string/add_invoice"
+                    android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/nickname_tv" />
+                    app:layout_constraintTop_toBottomOf="@id/nickname_tv"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                    android:id="@+id/add_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_invoice"
+                        android:visibility="gone" />
+
+                    <com.google.android.gms.common.SignInButton
+                        android:id="@+id/google_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
                 <View
                     android:id="@+id/divider"
@@ -79,7 +86,7 @@
                     android:background="@color/divider_gray"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_btn" />
+                    app:layout_constraintTop_toBottomOf="@id/button_wrap_layout" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view"
@@ -100,8 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/empty_list"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="17sp"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/recycler_view"

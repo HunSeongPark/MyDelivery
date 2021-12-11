@@ -18,6 +18,7 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField "String", "SWEET_TRACKER_API_KEY", project.properties["SWEET_TRACKER_API_KEY"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -73,9 +74,7 @@ dependencies {
     // Network
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.2"
-    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
-    implementation "com.squareup.moshi:moshi-kotlin:1.12.0"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.12.0"
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"

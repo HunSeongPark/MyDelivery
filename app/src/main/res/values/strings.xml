@@ -6,8 +6,18 @@
     <string name="my_page">마이페이지</string>
 
     <!-- Home -->
-    <string name="add_invoice">운송장 추가하기</string>
+    <string name="require_login">로그인이 필요합니다.</string>
+    <string name="add_invoice">운송장 번호 추가하기</string>
     <string name="empty_list">저장된 택배가 없어요!</string>
+    <string name="nickname_title">"%1$s님,
+택배가 지금 오고 있어요!"</string>
 
+    <!-- Add -->
+    <string name="invoice">운송장 번호</string>
+    <string name="company">택배사</string>
+
+    <!-- Google Auth -->
+    <string name="firebase_client_id">518617835946-93edqvqndl1ihuq693thdbhcm49i9e86.apps.googleusercontent.com</string>
+    <string name="recommend_company">추천 택배사</string>
 
 </resources>
