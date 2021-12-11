@@ -58,7 +58,7 @@ class AddFragment : Fragment() {
 
         // Invoice EditText listener
         binding.invoiceEt.addTextChangedListener {
-            if (it.toString().length >= 9) {
+            if (it.toString().length >= 12) {
                 viewModel.changeQuery(it.toString())
                 if (binding.companySpinner.selectedItemPosition != binding.companySpinner.count) {
                     binding.addBtn.isEnabled = true

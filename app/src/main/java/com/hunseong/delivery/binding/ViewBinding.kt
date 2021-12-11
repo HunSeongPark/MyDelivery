@@ -9,6 +9,7 @@ import androidx.databinding.BindingAdapter
 import androidx.navigation.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.protobuf.Empty
 import com.hunseong.delivery.R
 import com.hunseong.delivery.data.model.Company
 import com.hunseong.delivery.data.model.Result
@@ -22,6 +23,48 @@ object ViewBinding {
     @BindingAdapter("isLoading")
     fun bindIsLoading(view: View, result: Result<Any>) {
         view.isVisible = result is Result.Loading
+    }
+
+    @JvmStatic
+    @BindingAdapter("isError")
+    fun bindIsError(view: TextView, result: Result<Any>) {
+        if (result is Result.Error) {
+            view.visible()
+            view.text =
+                if (result.isNetworkError) {
+                    view.context.getString(R.string.network_error)
+                } else result.msg ?: view.context.getString(R.string.undefined_error)
+        } else {
+            view.gone()
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("isEmpty")
+    fun bindIsEmpty(view: TextView, result: Result<Any>) {
+        if (result is Result.Empty) {
+            view.visible()
+        } else {
+            view.gone()
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("isModifyBtnVisible")
+    fun bindIsModifyBtnVisible(view: TextView, result: Result<Any>) {
+        if (result is Result.Success) {
+            view.visible()
+        } else if (result is Result.Error || result is Result.Empty) {
+            view.gone()
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("isDelAndCancelBtnVisible")
+    fun bindIsDelAndCancelBtnVisible(view: LinearLayout, result: Result<Any>) {
+        if (result is Result.Success || result is Result.Empty) {
+            view.gone()
+        }
     }
 
     @JvmStatic
@@ -89,7 +132,7 @@ object ViewBinding {
                     position: Int,
                     id: Long,
                 ) {
-                    (view.rootView.findViewById<EditText>(R.id.invoice_et).text.toString().length >= 9).also {
+                    (view.rootView.findViewById<EditText>(R.id.invoice_et).text.toString().length >= 12).also {
                         view.rootView.findViewById<Button>(R.id.add_btn).isEnabled = it
                     }
                 }

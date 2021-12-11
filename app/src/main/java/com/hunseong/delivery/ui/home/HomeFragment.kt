@@ -44,62 +44,64 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+            vm = viewModel
+        }
         auth = Firebase.auth
         initViews()
-        observeData()
         updateUI(auth.currentUser)
         return binding.root
     }
 
-    private fun initViews() {
+    private fun initViews() = with(binding) {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.firebase_client_id))
             .requestEmail()
             .build()
 
-        val googleSignInClient = GoogleSignIn.getClient((this.activity as MainActivity), gso)
+        val googleSignInClient = GoogleSignIn.getClient((this@HomeFragment.activity as MainActivity), gso)
 
-        binding.googleBtn.setOnClickListener {
-            binding.progressBar.visible()
+        googleBtn.setOnClickListener {
+            progressBar.visible()
             val signInIntent = googleSignInClient.signInIntent
             startActivityForResult(signInIntent, 100)
         }
 
-        binding.addBtn.setOnClickListener {
+        addBtn.setOnClickListener {
             val directions = HomeFragmentDirections.homeFragmentToAddFragment()
             findNavController().navigate(directions)
         }
 
-        binding.refreshBtn.setOnClickListener {
-            (binding.recyclerView.adapter as TrackingInfoAdapter).modifyMode = false
+        refreshBtn.setOnClickListener {
+            (recyclerView.adapter as TrackingInfoAdapter).modifyMode = false
             viewModel.updateInfo(auth.currentUser!!.uid)
         }
 
-        binding.modifyBtn.setOnClickListener {
+        modifyBtn.setOnClickListener {
             it.gone()
-            binding.modifyCancelDeleteLayout.visible()
+            modifyCancelDeleteLayout.visible()
 
-            (binding.recyclerView.adapter as TrackingInfoAdapter).apply {
+            (recyclerView.adapter as TrackingInfoAdapter).apply {
                 modifyMode = true
                 notifyDataSetChanged()
             }
         }
 
-        binding.cancelBtn.setOnClickListener {
-            binding.modifyBtn.visible()
-            binding.modifyCancelDeleteLayout.gone()
+        cancelBtn.setOnClickListener {
+            modifyBtn.visible()
+            modifyCancelDeleteLayout.gone()
 
-            (binding.recyclerView.adapter as TrackingInfoAdapter).apply {
+            (recyclerView.adapter as TrackingInfoAdapter).apply {
                 modifyMode = false
                 currentList.forEach { it.isChecked = false }
                 notifyDataSetChanged()
             }
         }
 
-        binding.deleteBtn.setOnClickListener {
+        deleteBtn.setOnClickListener {
             val deleteInfoList =
-                (binding.recyclerView.adapter as TrackingInfoAdapter).currentList.filter { it.isChecked }
+                (recyclerView.adapter as TrackingInfoAdapter).currentList.filter { it.isChecked }
 
             if (deleteInfoList.isNotEmpty()) {
                 viewModel.deleteInfo(auth.currentUser!!.uid, deleteInfoList)
@@ -107,54 +109,8 @@ class HomeFragment : Fragment() {
         }
 
         trackingAdapter = TrackingInfoAdapter()
-        binding.recyclerView.adapter = trackingAdapter
+        recyclerView.adapter = trackingAdapter
 
-    }
-
-    private fun observeData() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.trackingInfos.collect { result ->
-                    when (result) {
-                        Result.Empty -> {
-                            binding.progressBar.gone()
-                            binding.errorTv.gone()
-                            binding.emptyListTv.visible()
-                            binding.modifyBtn.gone()
-                            binding.modifyCancelDeleteLayout.gone()
-                            (binding.recyclerView.adapter as TrackingInfoAdapter).apply {
-                                submitList(emptyList())
-                                modifyMode = false
-                            }
-                        }
-                        is Result.Error -> {
-                            binding.progressBar.gone()
-                            binding.errorTv.gone()
-                            binding.errorTv.text =
-                                if (result.isNetworkError) {
-                                    getString(R.string.network_error)
-                                } else result.msg ?: getString(R.string.undefined_error)
-                        }
-                        Result.Loading -> {
-                            binding.progressBar.visible()
-                            binding.emptyListTv.gone()
-                            binding.errorTv.gone()
-                        }
-                        is Result.Success -> {
-                            binding.modifyBtn.visible()
-                            binding.progressBar.gone()
-                            binding.errorTv.gone()
-                            binding.modifyCancelDeleteLayout.gone()
-                            (binding.recyclerView.adapter as TrackingInfoAdapter).apply {
-                                submitList(result.data)
-                                modifyMode = false
-                            }
-                        }
-                        else -> Unit
-                    }
-                }
-            }
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -182,18 +138,18 @@ class HomeFragment : Fragment() {
             }
     }
 
-    private fun updateUI(user: FirebaseUser?) {
-        binding.progressBar.gone()
+    private fun updateUI(user: FirebaseUser?) = with(binding) {
+        progressBar.gone()
         if (user == null) {
-            binding.addBtn.gone()
-            binding.nicknameTv.text = getString(R.string.require_login)
-            binding.emptyListTv.visible()
-            binding.googleBtn.visible()
+            addBtn.gone()
+            nicknameTv.text = getString(R.string.require_login)
+            emptyListTv.visible()
+            googleBtn.visible()
         } else {
-            binding.addBtn.visible()
-            binding.nicknameTv.text = getString(R.string.nickname_title, user.displayName)
-            binding.emptyListTv.visible()
-            binding.googleBtn.gone()
+            addBtn.visible()
+            nicknameTv.text = getString(R.string.nickname_title, user.displayName)
+            emptyListTv.visible()
+            googleBtn.gone()
             viewModel.updateInfo(auth.currentUser!!.uid)
         }
     }
