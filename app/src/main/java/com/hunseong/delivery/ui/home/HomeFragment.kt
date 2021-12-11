@@ -19,7 +19,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.hunseong.delivery.R
-import com.hunseong.delivery.data.model.Result
+import com.hunseong.delivery.data.model.*
 import com.hunseong.delivery.databinding.FragmentHomeBinding
 import com.hunseong.delivery.extension.gone
 import com.hunseong.delivery.extension.visible
@@ -87,8 +87,30 @@ class HomeFragment : Fragment() {
                     when (result) {
                         Result.Empty -> {
                             binding.progressBar.gone()
-                            binding.errorTv.gone()
-                            binding.emptyListTv.visible()
+//                            binding.errorTv.gone()
+//                            binding.emptyListTv.visible()
+                            val list = emptyList<TrackingInfoCompany>().toMutableList()
+
+                            for (i in 0..7) {
+                                val tr = TrackingInfoCompany(
+                                    info = TrackingInformation(
+                                        completeYN = "Y",
+                                        invoiceNo = "1235671253",
+                                        lastDetail = TrackingDetail(
+                                            kind = "배송 완료",
+                                            time = System.currentTimeMillis()
+                                        ),
+                                        level = Level.COMPLETE,
+
+                                    ),
+                                    company = Company(
+                                        name = "CJ 대한통운",
+                                        code = "01"
+                                    )
+                                )
+                                list.add(tr)
+                            }
+                            (binding.recyclerView.adapter as TrackingInfoAdapter).submitList(list)
                         }
                         is Result.Error -> {
                             binding.progressBar.gone()
