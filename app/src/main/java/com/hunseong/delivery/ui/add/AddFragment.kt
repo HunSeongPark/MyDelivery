@@ -1,9 +1,11 @@
 package com.hunseong.delivery.ui.add
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -89,6 +91,11 @@ class AddFragment : Fragment() {
                                 R.string.add_invoice_complete,
                                 Toast.LENGTH_SHORT)
                                 .show()
+
+                            // Hide Keyboard
+                            val inputMethodManager =
+                                requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                            inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
                             findNavController().navigateUp()
                         }
                         is Result.Error -> {
