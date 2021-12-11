@@ -16,6 +16,7 @@
     <string name="invoice">운송장 번호</string>
     <string name="company">택배사</string>
     <string name="recommend_company">추천 택배사</string>
+    <string name="add_invoice_complete">운송장 번호 등록이 완료되었습니다.</string>
 
     <!-- Google Auth -->
     <string name="firebase_client_id">518617835946-93edqvqndl1ihuq693thdbhcm49i9e86.apps.googleusercontent.com</string>

@@ -1,13 +1,10 @@
 package com.hunseong.delivery.data.repository
 
 import com.hunseong.delivery.data.model.Result
-import com.hunseong.delivery.data.model.TrackingInformation
-import com.hunseong.delivery.data.network.DeliveryApi
+import com.hunseong.delivery.data.api.DeliveryApi
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

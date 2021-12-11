@@ -12,6 +12,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.hunseong.delivery.R
 import com.hunseong.delivery.data.model.Result
 import com.hunseong.delivery.databinding.FragmentAddBinding
@@ -27,6 +30,8 @@ class AddFragment : Fragment() {
 
     private lateinit var binding: FragmentAddBinding
 
+    private lateinit var auth : FirebaseAuth
+
     private val viewModel: AddViewModel by viewModels()
 
     override fun onCreateView(
@@ -34,6 +39,9 @@ class AddFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+
+        auth = Firebase.auth
+
         binding = FragmentAddBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             vm = viewModel
@@ -62,7 +70,7 @@ class AddFragment : Fragment() {
         binding.addBtn.setOnClickListener {
             val invoice = binding.invoiceEt.text.toString()
             val companyName = binding.companySpinner.selectedItem as String
-            viewModel.addInvoice(invoice, companyName)
+            viewModel.addInvoice(auth.currentUser!!.uid, invoice, companyName)
         }
     }
 
@@ -77,7 +85,9 @@ class AddFragment : Fragment() {
                         is Result.Success -> {
                             binding.progressBar.gone()
                             Timber.tag("infoResult").d(result.data.toString())
-                            Toast.makeText(this@AddFragment.context, "등록 완료", Toast.LENGTH_SHORT)
+                            Toast.makeText(this@AddFragment.context,
+                                R.string.add_invoice_complete,
+                                Toast.LENGTH_SHORT)
                                 .show()
                             findNavController().navigateUp()
                         }
@@ -97,7 +107,6 @@ class AddFragment : Fragment() {
                                         .show()
                                 }
                                 else -> {
-                                    Timber.tag("infoResult").d(result.toString())
                                     Toast.makeText(this@AddFragment.context,
                                         R.string.undefined_error,
                                         Toast.LENGTH_SHORT)

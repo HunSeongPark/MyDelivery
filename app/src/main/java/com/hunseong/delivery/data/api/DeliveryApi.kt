@@ -1,4 +1,4 @@
-package com.hunseong.delivery.data.network
+package com.hunseong.delivery.data.api
 
 import com.hunseong.delivery.BuildConfig
 import com.hunseong.delivery.data.model.CompanyResponse

@@ -6,6 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -15,17 +19,26 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.hunseong.delivery.R
+import com.hunseong.delivery.data.model.Result
 import com.hunseong.delivery.databinding.FragmentHomeBinding
 import com.hunseong.delivery.extension.gone
 import com.hunseong.delivery.extension.visible
 import com.hunseong.delivery.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
+
+    private val viewModel: HomeViewModel by viewModels()
+
+    private lateinit var trackingAdapter: TrackingInfoAdapter
+
     private lateinit var auth: FirebaseAuth
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +47,7 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         auth = Firebase.auth
         initViews()
+        observeData()
         updateUI(auth.currentUser)
         return binding.root
     }
@@ -55,6 +69,49 @@ class HomeFragment : Fragment() {
         binding.addBtn.setOnClickListener {
             val directions = HomeFragmentDirections.homeFragmentToAddFragment()
             findNavController().navigate(directions)
+        }
+
+        binding.refreshBtn.setOnClickListener {
+            viewModel.updateTrackingInfo(auth.currentUser!!.uid)
+        }
+
+        trackingAdapter = TrackingInfoAdapter()
+        binding.recyclerView.adapter = trackingAdapter
+
+    }
+
+    private fun observeData() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.trackingInfos.collect { result ->
+                    when (result) {
+                        Result.Empty -> {
+                            binding.progressBar.gone()
+                            binding.errorTv.gone()
+                            binding.emptyListTv.visible()
+                        }
+                        is Result.Error -> {
+                            binding.progressBar.gone()
+                            binding.errorTv.gone()
+                            binding.errorTv.text =
+                                if (result.isNetworkError) {
+                                    getString(R.string.network_error)
+                                } else result.msg ?: getString(R.string.undefined_error)
+                        }
+                        Result.Loading -> {
+                            binding.progressBar.visible()
+                            binding.emptyListTv.gone()
+                            binding.errorTv.gone()
+                        }
+                        is Result.Success -> {
+                            binding.progressBar.gone()
+                            binding.errorTv.gone()
+                            (binding.recyclerView.adapter as TrackingInfoAdapter).submitList(result.data)
+                        }
+                        else -> Unit
+                    }
+                }
+            }
         }
     }
 
@@ -95,6 +152,7 @@ class HomeFragment : Fragment() {
             binding.nicknameTv.text = getString(R.string.nickname_title, user.displayName)
             binding.emptyListTv.visible()
             binding.googleBtn.gone()
+            viewModel.updateTrackingInfo(auth.currentUser!!.uid)
         }
     }
 }

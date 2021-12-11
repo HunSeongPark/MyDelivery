@@ -1,4 +1,4 @@
-package com.hunseong.delivery.data.network
+package com.hunseong.delivery.data.api
 
 import okhttp3.Interceptor
 import okhttp3.Response

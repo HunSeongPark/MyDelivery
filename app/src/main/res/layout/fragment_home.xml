@@ -5,140 +5,145 @@
 
     <data>
 
+
     </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
-            android:elevation="5dp">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/delivery_box"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-        </androidx.appcompat.widget.Toolbar>
-
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:overScrollMode="never">
+            android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                android:elevation="5dp">
 
                 <TextView
-                    android:id="@+id/nickname_tv"
+                    android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_gravity="center"
+                    android:text="@string/delivery_box"
                     android:textColor="@color/black"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="훈성님,\n택배가 지금 오고있어요!" />
+                    android:textSize="16sp" />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:id="@+id/button_wrap_layout"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/nickname_tv"
-                    android:layout_height="wrap_content">
+            </androidx.appcompat.widget.Toolbar>
 
-                    <Button
-                    android:id="@+id/add_btn"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_invoice"
-                        android:visibility="gone" />
+                    android:layout_height="match_parent">
 
-                    <com.google.android.gms.common.SignInButton
-                        android:id="@+id/google_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/nickname_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="25dp"
+                        android:textColor="@color/black"
+                        android:textSize="21sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="훈성님,\n택배가 지금 오고있어요!" />
 
-                </LinearLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/refresh_btn"
+                        android:src="@drawable/ic_baseline_refresh_24"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="15dp"
+                        />
 
-                <View
-                    android:id="@+id/divider"
-                    android:layout_width="0dp"
-                    android:layout_height="6dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/divider_gray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/button_wrap_layout" />
+                    <LinearLayout
+                        android:id="@+id/button_wrap_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="30dp"
+                        android:layout_marginTop="15dp"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/nickname_tv">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:clipToPadding="false"
-                    android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never"
-                    android:paddingTop="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider"
-                    tools:listitem="@layout/item_delivery" />
+                        <Button
+                            android:id="@+id/add_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/add_invoice"
+                            android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/empty_list_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/empty_list"
-                    android:textSize="17sp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/recycler_view"
-                    app:layout_constraintStart_toStartOf="@id/recycler_view"
-                    app:layout_constraintTop_toTopOf="@id/recycler_view" />
+                        <com.google.android.gms.common.SignInButton
+                            android:id="@+id/google_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/error_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/recycler_view"
-                    app:layout_constraintStart_toStartOf="@id/recycler_view"
-                    app:layout_constraintTop_toTopOf="@id/recycler_view" />
+                    </LinearLayout>
 
-                <ProgressBar
-                    android:layout_width="wrap_content"
-                    android:id="@+id/progress_bar"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content"
-                    android:indeterminateTint="@color/primaryColor"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_width="0dp"
+                        android:layout_height="6dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/divider_gray"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/button_wrap_layout" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintTop_toBottomOf="@id/divider"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:clipToPadding="false"
+                        android:overScrollMode="never"
+                        android:paddingTop="10dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_delivery" />
 
-        </androidx.core.widget.NestedScrollView>
+                    <TextView
+                        android:id="@+id/empty_list_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty_list"
+                        android:textSize="17sp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/recycler_view"
+                        app:layout_constraintStart_toStartOf="@id/recycler_view"
+                        app:layout_constraintTop_toTopOf="@id/recycler_view" />
 
-    </LinearLayout>
+                    <TextView
+                        android:id="@+id/error_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:nestedScrollingEnabled="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/recycler_view"
+                        app:layout_constraintStart_toStartOf="@id/recycler_view"
+                        app:layout_constraintTop_toTopOf="@id/recycler_view" />
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminateTint="@color/primaryColor"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
 
 </layout>

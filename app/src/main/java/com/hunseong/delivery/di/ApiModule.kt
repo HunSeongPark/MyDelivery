@@ -1,9 +1,11 @@
 package com.hunseong.delivery.di
 
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.GsonBuilder
-import com.hunseong.delivery.data.network.DeliveryApi
-import com.hunseong.delivery.data.network.HttpRequestInterceptor
-import com.hunseong.delivery.data.network.Url.BASE_URL
+import com.hunseong.delivery.data.api.DeliveryApi
+import com.hunseong.delivery.data.api.FirestoreApi
+import com.hunseong.delivery.data.api.HttpRequestInterceptor
+import com.hunseong.delivery.data.api.Url.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +17,7 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object NetworkModule {
+object ApiModule {
 
     @Provides
     @Singleton
@@ -39,5 +41,11 @@ object NetworkModule {
     @Singleton
     fun provideDeliveryApi(retrofit: Retrofit): DeliveryApi {
         return retrofit.create(DeliveryApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirestoreApi(firestore: FirebaseFirestore) : FirestoreApi {
+        return FirestoreApi(firestore)
     }
 }

@@ -1,7 +1,10 @@
 package com.hunseong.delivery.di
 
-import com.hunseong.delivery.data.network.DeliveryApi
+import com.hunseong.delivery.data.api.DeliveryApi
+import com.hunseong.delivery.data.api.FirestoreApi
 import com.hunseong.delivery.data.repository.AddRepository
+import com.hunseong.delivery.data.repository.FirestoreRepository
+import com.hunseong.delivery.data.repository.HomeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +20,20 @@ object RepositoryModule {
     @ViewModelScoped
     fun provideAddRepository(
         deliveryApi: DeliveryApi,
-        ioDispatcher: CoroutineDispatcher
+        ioDispatcher: CoroutineDispatcher,
     ): AddRepository = AddRepository(deliveryApi, ioDispatcher)
+
+    @Provides
+    @ViewModelScoped
+    fun provideFirestoreRepository(
+        firestoreApi: FirestoreApi,
+        ioDispatcher: CoroutineDispatcher,
+    ): FirestoreRepository = FirestoreRepository(firestoreApi, ioDispatcher)
+
+    @Provides
+    @ViewModelScoped
+    fun provideHomeRepository(
+        deliveryApi: DeliveryApi,
+        ioDispatcher: CoroutineDispatcher,
+    ): HomeRepository = HomeRepository(deliveryApi, ioDispatcher)
 }
