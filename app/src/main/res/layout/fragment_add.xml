@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -11,6 +12,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        app:toast="@{vm.companies}"
         android:background="@color/white"
         android:orientation="vertical"
         android:layout_height="match_parent">
@@ -111,6 +113,7 @@
                         app:layout_constraintTop_toTopOf="@id/company_tv" />
 
                     <Button
+                        android:enabled="false"
                         android:id="@+id/add_btn"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -118,7 +121,7 @@
                         android:text="@string/add_invoice"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/company_spinner" />
+                        app:layout_constraintTop_toBottomOf="@id/company_tv" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -169,8 +172,20 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recommend_tv"
-                    app:layout_constraintVertical_bias="0.2" />
+                    app:layout_constraintTop_toBottomOf="@id/recommend_tv" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/invoice_layout"
+                    android:layout_marginTop="20dp"
+                    android:textSize="18sp"
+                    tools:text="에러가 발생했습니다."
+                    android:id="@+id/error_tv"
+                    android:visibility="gone"
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

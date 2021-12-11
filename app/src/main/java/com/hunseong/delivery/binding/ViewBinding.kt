@@ -1,9 +1,9 @@
 package com.hunseong.delivery.binding
 
+import android.app.Activity
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.navigation.findNavController
@@ -15,6 +15,7 @@ import com.hunseong.delivery.data.model.Result
 import com.hunseong.delivery.extension.gone
 import com.hunseong.delivery.extension.visible
 
+
 object ViewBinding {
 
     @JvmStatic
@@ -24,10 +25,36 @@ object ViewBinding {
     }
 
     @JvmStatic
+    @BindingAdapter("toast")
+    fun bindToast(view: View, result: Result<Any>) {
+        if (result is Result.Error) {
+            when {
+                result.isNetworkError -> {
+                    Toast.makeText(view.context, R.string.network_error, Toast.LENGTH_SHORT).show()
+                }
+                result.msg != null -> {
+                    Toast.makeText(view.context, result.msg, Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(view.context, R.string.undefined_error, Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+    }
+
+    @JvmStatic
     @BindingAdapter("backPressed")
     fun bindBackPressed(view: View, isBackPressed: Boolean) {
         if (isBackPressed) {
             view.setOnClickListener {
+
+
+                // Hide Keyboard
+                val inputMethodManager =
+                    view.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+
                 view.findNavController().navigateUp()
             }
         }
@@ -38,18 +65,40 @@ object ViewBinding {
     fun bindCompanyList(view: Spinner, result: Result<List<Company>>) {
 
         if (result is Result.Success) {
+
+            // Spinner items<String>
             val items = result.data.map { it.name }
 
+            // Spinner Adapter
             val adapter = object : ArrayAdapter<String>(view.context,
                 android.R.layout.simple_spinner_dropdown_item) {
 
                 override fun getCount(): Int = super.getCount() - 1
             }
-
             adapter.addAll(items)
             adapter.add("택배사 선택")
 
+
+            // Spinner adapter , listener, initial selection setting
             view.adapter = adapter
+
+            view.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    selected: View?,
+                    position: Int,
+                    id: Long,
+                ) {
+                    (view.rootView.findViewById<EditText>(R.id.invoice_et).text.toString().length >= 9).also {
+                        view.rootView.findViewById<Button>(R.id.add_btn).isEnabled = it
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    view.rootView.findViewById<Button>(R.id.add_btn).isEnabled = false
+                }
+
+            }
             view.setSelection(adapter.count)
         }
     }

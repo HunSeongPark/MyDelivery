@@ -17,5 +17,6 @@ object RepositoryModule {
     @ViewModelScoped
     fun provideAddRepository(
         deliveryApi: DeliveryApi,
-    ): AddRepository = AddRepository(deliveryApi)
+        ioDispatcher: CoroutineDispatcher
+    ): AddRepository = AddRepository(deliveryApi, ioDispatcher)
 }
