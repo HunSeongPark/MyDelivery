@@ -1,35 +1,327 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="info"
+            type="com.hunseong.delivery.data.model.TrackingInfoCompany" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
-            android:elevation="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="디테일"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-        </androidx.appcompat.widget.Toolbar>
+                android:elevation="5dp">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="@color/white"
+                        app:contentInsetEnd="0dp"
+                        app:contentInsetStart="0dp"
+                        app:layout_collapseMode="pin">
+
+                        <TextView
+                            android:id="@+id/title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/delivery_lookup"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                    </androidx.appcompat.widget.Toolbar>
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+                        <TextView
+                            android:id="@+id/invoice_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/invoice_background"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="5dp"
+                            android:text="@{info.info.invoiceNo}"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="012345678910" />
+
+                        <TextView
+                            android:id="@+id/item_name_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="15dp"
+                            android:layout_marginTop="10dp"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:text="@{info.existItemName}"
+                            android:textColor="@color/black"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/invoice_tv"
+                            tools:text="[하이하이] 최저가 특가 밴딩 슬랙스" />
+
+                        <TextView
+                            android:id="@+id/company_name_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="@{info.company.name}"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/item_name_tv"
+                            tools:text="CJ대한통운" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/history_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/company_name_tv">
+
+                            <ImageView
+                                android:id="@+id/item_get_iv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/history_background"
+                                android:padding="15dp"
+                                android:src="@drawable/ic_item_get"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/first_divider"
+                                app:layout_constraintHorizontal_chainStyle="packed"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/item_get_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/item_get"
+                                android:textSize="13sp"
+                                app:layout_constraintEnd_toEndOf="@id/item_get_iv"
+                                app:layout_constraintStart_toStartOf="@id/item_get_iv"
+                                app:layout_constraintTop_toBottomOf="@id/item_get_iv" />
+
+                            <View
+                                android:id="@+id/first_divider"
+                                android:layout_width="20dp"
+                                android:layout_height="2dp"
+                                android:background="@color/divider_gray"
+                                app:layout_constraintBottom_toBottomOf="@id/item_get_iv"
+                                app:layout_constraintEnd_toStartOf="@id/item_move_iv"
+                                app:layout_constraintStart_toEndOf="@id/item_get_iv"
+                                app:layout_constraintTop_toTopOf="@id/item_get_iv" />
+
+                            <ImageView
+                                android:id="@+id/item_move_iv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/history_background"
+                                android:padding="15dp"
+                                android:src="@drawable/ic_item_move"
+                                app:layout_constraintBottom_toBottomOf="@id/item_get_iv"
+                                app:layout_constraintEnd_toStartOf="@id/second_divider"
+                                app:layout_constraintStart_toEndOf="@id/first_divider"
+                                app:layout_constraintTop_toTopOf="@id/item_get_iv" />
+
+                            <TextView
+                                android:id="@+id/item_move_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/item_move"
+                                android:textSize="13sp"
+                                app:layout_constraintEnd_toEndOf="@id/item_move_iv"
+                                app:layout_constraintStart_toStartOf="@id/item_move_iv"
+                                app:layout_constraintTop_toBottomOf="@id/item_move_iv" />
+
+                            <View
+                                android:id="@+id/second_divider"
+                                android:layout_width="20dp"
+                                android:layout_height="2dp"
+                                android:background="@color/divider_gray"
+                                app:layout_constraintBottom_toBottomOf="@id/item_move_iv"
+                                app:layout_constraintEnd_toStartOf="@id/item_arrive_company_iv"
+                                app:layout_constraintStart_toEndOf="@id/item_move_iv"
+                                app:layout_constraintTop_toTopOf="@id/item_move_iv" />
+
+                            <ImageView
+                                android:id="@+id/item_arrive_company_iv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/history_background"
+                                android:padding="15dp"
+                                android:src="@drawable/ic_arrive_company"
+                                app:layout_constraintBottom_toBottomOf="@id/item_move_iv"
+                                app:layout_constraintEnd_toStartOf="@id/third_divider"
+                                app:layout_constraintStart_toEndOf="@id/second_divider"
+                                app:layout_constraintTop_toTopOf="@id/item_move_iv" />
+
+                            <TextView
+                                android:id="@+id/item_arrive_company_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/item_arrive_company"
+                                android:textSize="13sp"
+                                app:layout_constraintEnd_toEndOf="@id/item_arrive_company_iv"
+                                app:layout_constraintStart_toStartOf="@id/item_arrive_company_iv"
+                                app:layout_constraintTop_toBottomOf="@id/item_arrive_company_iv" />
+
+                            <View
+                                android:id="@+id/third_divider"
+                                android:layout_width="20dp"
+                                android:layout_height="2dp"
+                                android:background="@color/divider_gray"
+                                app:layout_constraintBottom_toBottomOf="@id/item_arrive_company_iv"
+                                app:layout_constraintEnd_toStartOf="@id/item_start_delivery_iv"
+                                app:layout_constraintStart_toEndOf="@id/item_arrive_company_iv"
+                                app:layout_constraintTop_toTopOf="@id/item_arrive_company_iv" />
+
+                            <ImageView
+                                android:id="@+id/item_start_delivery_iv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/history_background"
+                                android:padding="15dp"
+                                android:src="@drawable/ic_start_delivery"
+                                app:layout_constraintBottom_toBottomOf="@id/item_arrive_company_iv"
+                                app:layout_constraintEnd_toStartOf="@id/fourth_divider"
+                                app:layout_constraintStart_toEndOf="@id/third_divider"
+                                app:layout_constraintTop_toTopOf="@id/item_arrive_company_iv" />
+
+                            <TextView
+                                android:id="@+id/item_start_delivery_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/item_start_delivery"
+                                android:textSize="13sp"
+                                app:layout_constraintEnd_toEndOf="@id/item_start_delivery_iv"
+                                app:layout_constraintStart_toStartOf="@id/item_start_delivery_iv"
+                                app:layout_constraintTop_toBottomOf="@id/item_start_delivery_iv" />
+
+                            <View
+                                android:id="@+id/fourth_divider"
+                                android:layout_width="20dp"
+                                android:layout_height="2dp"
+                                android:layout_gravity="center_vertical"
+                                android:background="@color/divider_gray"
+                                app:layout_constraintBottom_toBottomOf="@id/item_start_delivery_iv"
+                                app:layout_constraintEnd_toStartOf="@id/item_arrive_home_iv"
+                                app:layout_constraintStart_toEndOf="@id/item_start_delivery_iv"
+                                app:layout_constraintTop_toTopOf="@id/item_start_delivery_iv" />
+
+                            <ImageView
+                                android:id="@+id/item_arrive_home_iv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/history_background"
+                                android:padding="15dp"
+                                android:src="@drawable/ic_arrive_home"
+                                app:layout_constraintBottom_toBottomOf="@id/item_start_delivery_iv"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/fourth_divider"
+                                app:layout_constraintTop_toTopOf="@id/item_start_delivery_iv" />
+
+                            <TextView
+                                android:id="@+id/item_arrive_home_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/item_arrive_home"
+                                android:textSize="13sp"
+                                app:layout_constraintEnd_toEndOf="@id/item_arrive_home_iv"
+                                app:layout_constraintStart_toStartOf="@id/item_arrive_home_iv"
+                                app:layout_constraintTop_toBottomOf="@id/item_arrive_home_iv" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <View
+                            android:id="@+id/divider"
+                            android:layout_width="0dp"
+                            android:layout_height="6dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@color/divider_gray"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/history_layout" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:nestedScrollingEnabled="false"
+                        android:overScrollMode="never"
+                        tools:listitem="@layout/item_middle" />
+
+                </LinearLayout>
+
+
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/empty_info_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/primaryColor"
+            android:text="@string/not_exist_info"
+            android:textSize="17sp"
+            android:visibility="gone" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 </layout>

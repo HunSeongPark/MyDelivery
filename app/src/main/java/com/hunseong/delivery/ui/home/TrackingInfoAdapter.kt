@@ -12,7 +12,7 @@ import com.hunseong.delivery.R
 import com.hunseong.delivery.data.model.TrackingInfoCompany
 import com.hunseong.delivery.databinding.ItemDeliveryBinding
 
-class TrackingInfoAdapter :
+class TrackingInfoAdapter(private val onClick: (TrackingInfoCompany) -> Unit) :
     ListAdapter<TrackingInfoCompany, TrackingInfoAdapter.ViewHolder>(diffUtil) {
 
     var modifyMode: Boolean = false
@@ -25,8 +25,7 @@ class TrackingInfoAdapter :
             binding.root.setOnClickListener {
                 val position = bindingAdapterPosition.takeIf { it != NO_POSITION }
                     ?: return@setOnClickListener
-                val trackingInformation = getItem(position)
-                // TODO 아이템 클릭 시 Detail 이동
+                onClick(getItem(position))
             }
         }
 

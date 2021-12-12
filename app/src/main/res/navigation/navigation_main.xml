@@ -28,7 +28,8 @@
 
     </fragment>
 
-    <fragment android:id="@+id/add_fragment"
+    <fragment
+        android:id="@+id/add_fragment"
         android:name="com.hunseong.delivery.ui.add.AddFragment"
         tools:layout="@layout/fragment_add">
 
@@ -39,12 +40,19 @@
         android:name="com.hunseong.delivery.ui.detail.DetailFragment"
         tools:layout="@layout/fragment_detail">
 
+        <argument
+            android:name="info"
+            app:argType="com.hunseong.delivery.data.model.TrackingInfoCompany" />
+
     </fragment>
 
     <fragment
         android:id="@+id/my_fragment"
         android:name="com.hunseong.delivery.ui.my.MyFragment"
         tools:layout="@layout/fragment_my">
+
+        <action android:id="@+id/my_fragment_to_home_fragment"
+            app:destination="@id/home_fragment"/>
 
     </fragment>
 

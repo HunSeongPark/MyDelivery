@@ -73,11 +73,6 @@ class HomeFragment : Fragment() {
             findNavController().navigate(directions)
         }
 
-        refreshBtn.setOnClickListener {
-            (recyclerView.adapter as TrackingInfoAdapter).modifyMode = false
-            viewModel.updateInfo(auth.currentUser!!.uid)
-        }
-
         modifyBtn.setOnClickListener {
             it.gone()
             modifyCancelDeleteLayout.visible()
@@ -108,7 +103,10 @@ class HomeFragment : Fragment() {
             }
         }
 
-        trackingAdapter = TrackingInfoAdapter()
+        trackingAdapter = TrackingInfoAdapter { info ->
+            val direction = HomeFragmentDirections.homeFragmentToDetailFragment(info)
+            findNavController().navigate(direction)
+        }
         recyclerView.adapter = trackingAdapter
 
     }
@@ -142,11 +140,17 @@ class HomeFragment : Fragment() {
         progressBar.gone()
         if (user == null) {
             addBtn.gone()
+            binding.refreshBtn.gone()
             nicknameTv.text = getString(R.string.require_login)
             emptyListTv.visible()
             googleBtn.visible()
         } else {
             addBtn.visible()
+            refreshBtn.visible()
+            refreshBtn.setOnClickListener {
+                (recyclerView.adapter as TrackingInfoAdapter).modifyMode = false
+                viewModel.updateInfo(auth.currentUser!!.uid)
+            }
             nicknameTv.text = getString(R.string.nickname_title, user.displayName)
             emptyListTv.visible()
             googleBtn.gone()
