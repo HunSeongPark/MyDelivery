@@ -1,12 +1,17 @@
 package com.hunseong.delivery.ui.add
 
 import android.app.Activity
+import android.content.ClipDescription
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.text.isDigitsOnly
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -74,7 +79,31 @@ class AddFragment : Fragment() {
             val companyName = binding.companySpinner.selectedItem as String
             viewModel.addInvoice(auth.currentUser!!.uid, invoice, companyName)
         }
+
+        copyClipBoardInvoice()
     }
+
+    private fun copyClipBoardInvoice() {
+        val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val invoice = clipboard.plainTextClip()
+        if (!invoice.isNullOrBlank() && invoice.isDigitsOnly()) {
+            AlertDialog.Builder(requireActivity())
+                .setTitle("클립 보드에 있는 $invoice 를 운송장 번호로 추가하기")
+                .setPositiveButton("추가") { _, _ ->
+                    binding.invoiceEt.setText(invoice)
+                }
+                .setNegativeButton("취소") { _, _ -> }
+                .create()
+                .show()
+        }
+    }
+
+    private fun ClipboardManager.plainTextClip(): String? =
+        if (hasPrimaryClip() && (primaryClipDescription?.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN) == true)) {
+            primaryClip?.getItemAt(0)?.text?.toString()
+        } else {
+            null
+        }
 
     private fun observeData() {
         lifecycleScope.launch {
