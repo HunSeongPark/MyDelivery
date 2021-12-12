@@ -10,7 +10,16 @@
 * 구글 로그인을 통한 운송장 정보 저장            
 * 운송장 추가 / 클립보드 자동 복사 / 추천 택배사                      
 * 운송장 삭제              
-* 배송 상세 조회                    
+* 배송 상세 조회                          
+
+## Libraries (MVVM pattern)                             
+* Firebase Authentication             
+* Firebase Firestore                
+* Bottom Navigation View + Jetpack Navigation                 
+* Coroutine / Flow                      
+* Retrofit2 / OkHttp3 / Gson Converter                
+* Hilt                      
+* Timber        
 
 ## 추가로 학습하게 된 것                           
 * [Bottom Navigation View + Jetpack Navigation fade animation 제거](https://hungseong.tistory.com/35)             
