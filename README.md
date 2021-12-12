@@ -25,4 +25,5 @@
 * [스마트택배 API](https://tracking.sweettracker.co.kr/)           
 
 ## 추가로 학습하게 된 것                           
-* [Bottom Navigation View + Jetpack Navigation fade animation 제거](https://hungseong.tistory.com/35)             
+* [Bottom Navigation View + Jetpack Navigation fade animation 제거](https://hungseong.tistory.com/35)                   
+* [RecyclerView에서 스크롤 시 Check box의 check 상태 보존](https://hungseong.tistory.com/36)                 
